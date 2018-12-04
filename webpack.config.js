@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -27,7 +28,18 @@ module.exports = (env, argv) => ({
     ]
   },
 
+  optimization: {
+    providedExports: true,
+    usedExports: true,
+    concatenateModules: true
+  },
+
   plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+    }),
+
     new HtmlWebpackPlugin({
       hash: true,
       filename: 'index.html',
@@ -54,6 +66,6 @@ module.exports = (env, argv) => ({
         preset: ['default', { discardComments: { removeAll: true } }],
       },
       canPrint: true
-    })
+    }),
   ],
 });
